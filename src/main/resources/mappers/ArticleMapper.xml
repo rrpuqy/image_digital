@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.digitalimage.model.dao.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.Article">
+    <id column="art_id" jdbcType="INTEGER" property="artId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="publishdate" jdbcType="TIMESTAMP" property="publishdate" />
+    <result column="visitornum" jdbcType="VARCHAR" property="visitornum" />
+    <result column="outstanding" jdbcType="INTEGER" property="outstanding" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
+    <result column="abstruct" jdbcType="VARCHAR" property="abstruct" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.digitalimage.model.entity.Article">
+    <result column="blob" jdbcType="LONGVARBINARY" property="blob" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    art_id, user_id, title, `type`, publishdate, visitornum, outstanding, `status`, imgurl, 
+    abstruct, url, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    `blob`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.digitalimage.model.entity.Article">
+    insert into article (art_id, user_id, title, 
+      `type`, publishdate, visitornum, 
+      outstanding, `status`, imgurl, 
+      abstruct, url, create_time, 
+      update_time, `blob`)
+    values (#{artId,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{publishdate,jdbcType=TIMESTAMP}, #{visitornum,jdbcType=VARCHAR}, 
+      #{outstanding,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, 
+      #{abstruct,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{blob,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.Article">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="artId != null">
+        art_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="publishdate != null">
+        publishdate,
+      </if>
+      <if test="visitornum != null">
+        visitornum,
+      </if>
+      <if test="outstanding != null">
+        outstanding,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="imgurl != null">
+        imgurl,
+      </if>
+      <if test="abstruct != null">
+        abstruct,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="blob != null">
+        `blob`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="artId != null">
+        #{artId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="publishdate != null">
+        #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitornum != null">
+        #{visitornum,jdbcType=VARCHAR},
+      </if>
+      <if test="outstanding != null">
+        #{outstanding,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="abstruct != null">
+        #{abstruct,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blob != null">
+        #{blob,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.Article">
+    update article
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="publishdate != null">
+        publishdate = #{publishdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitornum != null">
+        visitornum = #{visitornum,jdbcType=VARCHAR},
+      </if>
+      <if test="outstanding != null">
+        outstanding = #{outstanding,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null">
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="abstruct != null">
+        abstruct = #{abstruct,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blob != null">
+        `blob` = #{blob,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.digitalimage.model.entity.Article">
+    update article
+    set user_id = #{userId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      publishdate = #{publishdate,jdbcType=TIMESTAMP},
+      visitornum = #{visitornum,jdbcType=VARCHAR},
+      outstanding = #{outstanding,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      imgurl = #{imgurl,jdbcType=VARCHAR},
+      abstruct = #{abstruct,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `blob` = #{blob,jdbcType=LONGVARBINARY}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.Article">
+    update article
+    set user_id = #{userId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      publishdate = #{publishdate,jdbcType=TIMESTAMP},
+      visitornum = #{visitornum,jdbcType=VARCHAR},
+      outstanding = #{outstanding,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      imgurl = #{imgurl,jdbcType=VARCHAR},
+      abstruct = #{abstruct,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+</mapper>

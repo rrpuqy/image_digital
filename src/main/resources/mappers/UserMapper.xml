@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.digitalimage.model.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.User">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="birthdate" jdbcType="DATE" property="birthdate" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="graduated" jdbcType="INTEGER" property="graduated" />
+    <result column="enro_year" jdbcType="INTEGER" property="enroYear" />
+    <result column="nick" jdbcType="VARCHAR" property="nick" />
+    <result column="user_province" jdbcType="VARCHAR" property="userProvince" />
+    <result column="user_city" jdbcType="VARCHAR" property="userCity" />
+    <result column="user_point" jdbcType="INTEGER" property="userPoint" />
+    <result column="remaining_view_num" jdbcType="INTEGER" property="remainingViewNum" />
+    <result column="user_exp" jdbcType="INTEGER" property="userExp" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, `status`, gender, birthdate, email, phone, graduated, enro_year, 
+    nick, user_province, user_city, user_point, remaining_view_num, user_exp, `password`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.digitalimage.model.entity.User">
+    insert into user (user_id, user_name, `status`, 
+      gender, birthdate, email, 
+      phone, graduated, enro_year, 
+      nick, user_province, user_city, 
+      user_point, remaining_view_num, user_exp, 
+      `password`)
+    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{gender,jdbcType=INTEGER}, #{birthdate,jdbcType=DATE}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{graduated,jdbcType=INTEGER}, #{enroYear,jdbcType=INTEGER}, 
+      #{nick,jdbcType=VARCHAR}, #{userProvince,jdbcType=VARCHAR}, #{userCity,jdbcType=VARCHAR}, 
+      #{userPoint,jdbcType=INTEGER}, #{remainingViewNum,jdbcType=INTEGER}, #{userExp,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="birthdate != null">
+        birthdate,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="graduated != null">
+        graduated,
+      </if>
+      <if test="enroYear != null">
+        enro_year,
+      </if>
+      <if test="nick != null">
+        nick,
+      </if>
+      <if test="userProvince != null">
+        user_province,
+      </if>
+      <if test="userCity != null">
+        user_city,
+      </if>
+      <if test="userPoint != null">
+        user_point,
+      </if>
+      <if test="remainingViewNum != null">
+        remaining_view_num,
+      </if>
+      <if test="userExp != null">
+        user_exp,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null">
+        #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="graduated != null">
+        #{graduated,jdbcType=INTEGER},
+      </if>
+      <if test="enroYear != null">
+        #{enroYear,jdbcType=INTEGER},
+      </if>
+      <if test="nick != null">
+        #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="userProvince != null">
+        #{userProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null">
+        #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoint != null">
+        #{userPoint,jdbcType=INTEGER},
+      </if>
+      <if test="remainingViewNum != null">
+        #{remainingViewNum,jdbcType=INTEGER},
+      </if>
+      <if test="userExp != null">
+        #{userExp,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null">
+        birthdate = #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="graduated != null">
+        graduated = #{graduated,jdbcType=INTEGER},
+      </if>
+      <if test="enroYear != null">
+        enro_year = #{enroYear,jdbcType=INTEGER},
+      </if>
+      <if test="nick != null">
+        nick = #{nick,jdbcType=VARCHAR},
+      </if>
+      <if test="userProvince != null">
+        user_province = #{userProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="userCity != null">
+        user_city = #{userCity,jdbcType=VARCHAR},
+      </if>
+      <if test="userPoint != null">
+        user_point = #{userPoint,jdbcType=INTEGER},
+      </if>
+      <if test="remainingViewNum != null">
+        remaining_view_num = #{remainingViewNum,jdbcType=INTEGER},
+      </if>
+      <if test="userExp != null">
+        user_exp = #{userExp,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=INTEGER},
+      birthdate = #{birthdate,jdbcType=DATE},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      graduated = #{graduated,jdbcType=INTEGER},
+      enro_year = #{enroYear,jdbcType=INTEGER},
+      nick = #{nick,jdbcType=VARCHAR},
+      user_province = #{userProvince,jdbcType=VARCHAR},
+      user_city = #{userCity,jdbcType=VARCHAR},
+      user_point = #{userPoint,jdbcType=INTEGER},
+      remaining_view_num = #{remainingViewNum,jdbcType=INTEGER},
+      user_exp = #{userExp,jdbcType=INTEGER},
+      `password` = #{password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <select id="selectLogin" parameterType="com.example.digitalimage.model.vo.UserVo"
+          resultType="com.example.digitalimage.model.entity.User">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where user_id = #{userId} and
+    password = #{password}
+  </select>
+</mapper>
