@@ -7,10 +7,15 @@ import com.example.digitalimage.model.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServlet;
+
 @Service
 public class UserService {
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    TokenService tokenService;
 
     public User login(UserVo userVo) throws Exception {
         userVo.setPassword(DigestUtil.md5Hex(userVo.getPassword()));
@@ -18,6 +23,7 @@ public class UserService {
         if (user==null) {
             throw new Exception("error");
         }
+        tokenService.getToken(user);
         return user;
     }
 
