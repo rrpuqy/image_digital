@@ -17,13 +17,9 @@ public class UserService {
     @Autowired
     TokenService tokenService;
 
-    public User login(UserVo userVo) throws Exception {
+    public User login(UserVo userVo) {
         userVo.setPassword(DigestUtil.md5Hex(userVo.getPassword()));
         User user = userMapper.selectLogin(userVo);
-        if (user==null) {
-            throw new Exception("error");
-        }
-        tokenService.getToken(user);
         return user;
     }
 
