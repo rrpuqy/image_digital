@@ -20,10 +20,8 @@ public class UserService {
     public User login(UserVo userVo) {
         userVo.setPassword(DigestUtil.md5Hex(userVo.getPassword()));
         User user = userMapper.selectLogin(userVo);
+        System.out.println(user);
         return user;
     }
 
-    public static void main(String[] args) {
-        System.out.println(DigestUtil.md5Hex("1234"));
-    }
 }

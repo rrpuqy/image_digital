@@ -1,5 +1,6 @@
 package com.example.digitalimage.common;
 
+import com.example.digitalimage.exception.ExceptionEnum;
 import lombok.Data;
 import lombok.ToString;
 
@@ -41,5 +42,8 @@ public class ApiRequestResponse <T>{
         return  new ApiRequestResponse<>(code,msg);
     }
 
+    public static <T> ApiRequestResponse<T> error(ExceptionEnum ex) {
+        return new ApiRequestResponse<>(ex.getCode(), ex.getMsg());
+    }
 
 }

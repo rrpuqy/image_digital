@@ -1,14 +1,14 @@
 package com.example.digitalimage.model.vo;
 
-import lombok.Data;
+
 
 //@Data
 public class UserVo {
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -20,6 +20,6 @@ public class UserVo {
         this.password = password;
     }
 
-    private Integer userId;
+    private Long userId;
     private String password;
 }

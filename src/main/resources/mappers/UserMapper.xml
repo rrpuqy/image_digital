@@ -221,11 +221,18 @@
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
   <select id="selectLogin" parameterType="com.example.digitalimage.model.vo.UserVo"
-          resultType="com.example.digitalimage.model.entity.User">
+          resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from user
     where user_id = #{userId} and
     password = #{password}
+  </select>
+  <select id="findUserById" parameterType="java.lang.Long"
+          resultType="com.example.digitalimage.model.entity.User">
+    select
+    <include refid="Base_Column_List"/>
+    from user
+    where user_id = #{userId}
   </select>
 </mapper>
