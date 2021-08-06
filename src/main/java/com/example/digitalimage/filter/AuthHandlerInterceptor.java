@@ -2,6 +2,8 @@ package com.example.digitalimage.filter;
 
 
 
+import com.example.digitalimage.exception.ExceptionEnum;
+import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.dao.UserMapper;
 import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.service.TokenService;
@@ -38,16 +40,13 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
             return true;
         }
         if (token == null  || "".equals(token.trim())) {
-            throw new RuntimeException("无token，请重新登录");
+            throw new MyException(ExceptionEnum.JWT_ERR);
         }
         Map<String, Object> map = tokenService.parseToken(token);
-        System.out.println(map);
         Object userId = map.get("userId");
-        System.out.println("--------------------------------------------------");
-        System.out.println((Long)userId);
         User user = userMapper.selectByPrimaryKey((Long)userId);
         if (user == null){
-            throw new RuntimeException("用户不存在，请重新登录");
+            throw new MyException(ExceptionEnum.NEED_LOGIN);
         }
         return true;
     }

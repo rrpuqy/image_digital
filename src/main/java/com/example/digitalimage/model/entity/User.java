@@ -19,12 +19,13 @@ public class User {
     private String email;
 
     private String phone;
+    private String nick;
 
     private Integer graduated;
 
     private Integer enroYear;
 
-    private String nick;
+
 
     private String userProvince;
 
