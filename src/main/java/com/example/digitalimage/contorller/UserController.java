@@ -30,6 +30,7 @@ public class UserController extends BaseController {
         if(user!=null){
             String token = tokenService.getToken(user);
             rq.setHeader("token",token);
+            rq.addHeader("Access-Control-Expose-Headers","token");
             return this.renderSuccess(user);
         }
 

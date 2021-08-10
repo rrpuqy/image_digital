@@ -1,23 +1,25 @@
 package com.example.digitalimage.model.entity;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+
+@ToString
 public class Comment {
     private Integer comId;
 
-    private String content;
+    private Long authId;
 
-    private String comImage;
+    private Integer articleId;
+
+    private String content;
 
     private Integer status;
 
     private Integer ignore;
 
     private Date publishdate;
-
-    private Long userId;
-
-    private Integer articleId;
 
     public Integer getComId() {
         return comId;
@@ -27,20 +29,28 @@ public class Comment {
         this.comId = comId;
     }
 
+    public Long getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(Long authId) {
+        this.authId = authId;
+    }
+
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
-    }
-
-    public String getComImage() {
-        return comImage;
-    }
-
-    public void setComImage(String comImage) {
-        this.comImage = comImage == null ? null : comImage.trim();
     }
 
     public Integer getStatus() {
@@ -65,21 +75,5 @@ public class Comment {
 
     public void setPublishdate(Date publishdate) {
         this.publishdate = publishdate;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
     }
 }

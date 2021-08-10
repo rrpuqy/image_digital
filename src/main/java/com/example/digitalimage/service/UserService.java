@@ -34,6 +34,7 @@ public class UserService {
 
     public int register(RegisterVo registerVo){
         User user = new User();
+        log.info("registerVo",registerVo);
         BeanUtils.copyProperties(registerVo,user);
         log.info("user",user);
         User uold = userMapper.selectByPrimaryKey(registerVo.getUserId());

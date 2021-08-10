@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.digitalimage.model.dao.AriticleCommentMapper">
+    <resultMap id="articleDetail" type="com.example.digitalimage.model.entity.ArticleAndComment">
+        <id property="artId" column="art_id"/>
+        <result property="title" column="title"/>
+        <association property="articleContent" column="art_id" select="com.example.digitalimage.model.dao.ArticleContentMapper.selectByPrimaryKey"/>
+        <collection property="commentList" column="art_id" select="getCommentForArt"/>
+    </resultMap>
+    <select id="getCommentForArt" parameterType="integer" resultType="com.example.digitalimage.model.entity.Comment">
+        select * from comment where article_id = #{id}
+    </select>
+    <select id="getById" resultMap="articleDetail" parameterType="integer">
+        select * from article where art_id = #{id}
+    </select>
+</mapper>

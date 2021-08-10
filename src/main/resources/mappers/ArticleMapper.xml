@@ -3,34 +3,27 @@
 <mapper namespace="com.example.digitalimage.model.dao.ArticleMapper">
   <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.Article">
     <id column="art_id" jdbcType="INTEGER" property="artId" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="auth_id" jdbcType="BIGINT" property="authId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="publishdate" jdbcType="TIMESTAMP" property="publishdate" />
-    <result column="visitornum" jdbcType="VARCHAR" property="visitornum" />
+    <result column="visitornum" jdbcType="INTEGER" property="visitornum" />
+    <result column="thumb" jdbcType="INTEGER" property="thumb" />
+    <result column="collect" jdbcType="INTEGER" property="collect" />
     <result column="outstanding" jdbcType="INTEGER" property="outstanding" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="imgurl" jdbcType="VARCHAR" property="imgurl" />
     <result column="abstruct" jdbcType="VARCHAR" property="abstruct" />
     <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="publishdate" jdbcType="TIMESTAMP" property="publishdate" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.digitalimage.model.entity.Article">
-    <result column="blob" jdbcType="LONGVARBINARY" property="blob" />
+    <result column="come_from" jdbcType="VARCHAR" property="comeFrom" />
   </resultMap>
   <sql id="Base_Column_List">
-    art_id, user_id, title, `type`, publishdate, visitornum, outstanding, `status`, imgurl, 
-    abstruct, url, create_time, update_time
+    art_id, auth_id, title, visitornum, thumb, `collect`, outstanding, `status`, imgurl, 
+    abstruct, url, publishdate, update_time, come_from
   </sql>
-  <sql id="Blob_Column_List">
-    `blob`
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from article
     where art_id = #{artId,jdbcType=INTEGER}
   </select>
@@ -39,16 +32,16 @@
     where art_id = #{artId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.digitalimage.model.entity.Article">
-    insert into article (art_id, user_id, title, 
-      `type`, publishdate, visitornum, 
+    insert into article (art_id, auth_id, title, 
+      visitornum, thumb, `collect`, 
       outstanding, `status`, imgurl, 
-      abstruct, url, create_time, 
-      update_time, `blob`)
-    values (#{artId,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{publishdate,jdbcType=TIMESTAMP}, #{visitornum,jdbcType=VARCHAR}, 
+      abstruct, url, publishdate, 
+      update_time, come_from)
+    values (#{artId,jdbcType=INTEGER}, #{authId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{visitornum,jdbcType=INTEGER}, #{thumb,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, 
       #{outstanding,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, 
-      #{abstruct,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{blob,jdbcType=LONGVARBINARY})
+      #{abstruct,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{comeFrom,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.Article">
     insert into article
@@ -56,20 +49,20 @@
       <if test="artId != null">
         art_id,
       </if>
-      <if test="userId != null">
-        user_id,
+      <if test="authId != null">
+        auth_id,
       </if>
       <if test="title != null">
         title,
       </if>
-      <if test="type != null">
-        `type`,
-      </if>
-      <if test="publishdate != null">
-        publishdate,
-      </if>
       <if test="visitornum != null">
         visitornum,
+      </if>
+      <if test="thumb != null">
+        thumb,
+      </if>
+      <if test="collect != null">
+        `collect`,
       </if>
       <if test="outstanding != null">
         outstanding,
@@ -86,34 +79,34 @@
       <if test="url != null">
         url,
       </if>
-      <if test="createTime != null">
-        create_time,
+      <if test="publishdate != null">
+        publishdate,
       </if>
       <if test="updateTime != null">
         update_time,
       </if>
-      <if test="blob != null">
-        `blob`,
+      <if test="comeFrom != null">
+        come_from,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="artId != null">
         #{artId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=BIGINT},
+      <if test="authId != null">
+        #{authId,jdbcType=BIGINT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="publishdate != null">
-        #{publishdate,jdbcType=TIMESTAMP},
-      </if>
       <if test="visitornum != null">
-        #{visitornum,jdbcType=VARCHAR},
+        #{visitornum,jdbcType=INTEGER},
+      </if>
+      <if test="thumb != null">
+        #{thumb,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        #{collect,jdbcType=INTEGER},
       </if>
       <if test="outstanding != null">
         #{outstanding,jdbcType=INTEGER},
@@ -130,34 +123,34 @@
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="publishdate != null">
+        #{publishdate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="blob != null">
-        #{blob,jdbcType=LONGVARBINARY},
+      <if test="comeFrom != null">
+        #{comeFrom,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.Article">
     update article
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=BIGINT},
+      <if test="authId != null">
+        auth_id = #{authId,jdbcType=BIGINT},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        `type` = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="publishdate != null">
-        publishdate = #{publishdate,jdbcType=TIMESTAMP},
-      </if>
       <if test="visitornum != null">
-        visitornum = #{visitornum,jdbcType=VARCHAR},
+        visitornum = #{visitornum,jdbcType=INTEGER},
+      </if>
+      <if test="thumb != null">
+        thumb = #{thumb,jdbcType=INTEGER},
+      </if>
+      <if test="collect != null">
+        `collect` = #{collect,jdbcType=INTEGER},
       </if>
       <if test="outstanding != null">
         outstanding = #{outstanding,jdbcType=INTEGER},
@@ -174,49 +167,33 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="publishdate != null">
+        publishdate = #{publishdate,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="blob != null">
-        `blob` = #{blob,jdbcType=LONGVARBINARY},
+      <if test="comeFrom != null">
+        come_from = #{comeFrom,jdbcType=VARCHAR},
       </if>
     </set>
     where art_id = #{artId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.digitalimage.model.entity.Article">
-    update article
-    set user_id = #{userId,jdbcType=BIGINT},
-      title = #{title,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=INTEGER},
-      publishdate = #{publishdate,jdbcType=TIMESTAMP},
-      visitornum = #{visitornum,jdbcType=VARCHAR},
-      outstanding = #{outstanding,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=INTEGER},
-      imgurl = #{imgurl,jdbcType=VARCHAR},
-      abstruct = #{abstruct,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      `blob` = #{blob,jdbcType=LONGVARBINARY}
-    where art_id = #{artId,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.Article">
     update article
-    set user_id = #{userId,jdbcType=BIGINT},
+    set auth_id = #{authId,jdbcType=BIGINT},
       title = #{title,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=INTEGER},
-      publishdate = #{publishdate,jdbcType=TIMESTAMP},
-      visitornum = #{visitornum,jdbcType=VARCHAR},
+      visitornum = #{visitornum,jdbcType=INTEGER},
+      thumb = #{thumb,jdbcType=INTEGER},
+      `collect` = #{collect,jdbcType=INTEGER},
       outstanding = #{outstanding,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       imgurl = #{imgurl,jdbcType=VARCHAR},
       abstruct = #{abstruct,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      publishdate = #{publishdate,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      come_from = #{comeFrom,jdbcType=VARCHAR}
     where art_id = #{artId,jdbcType=INTEGER}
   </update>
 </mapper>

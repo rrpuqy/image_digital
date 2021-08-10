@@ -14,7 +14,6 @@ import java.util.Date;
 @ToString
 public class RegisterVo {
 
-    @NotNull
     private Long userId;
 
 
