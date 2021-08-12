@@ -16,7 +16,7 @@ public class AuthWebConfigurer extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authHandlerInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/register", "/test-token", "/retest");
+                .addPathPatterns("/hello");
+//                .excludePathPatterns("/login", "/register", "/test-token", "/retest");
     }
 }

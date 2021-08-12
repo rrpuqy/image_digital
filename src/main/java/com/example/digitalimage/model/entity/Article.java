@@ -5,15 +5,15 @@ import java.util.Date;
 public class Article {
     private Integer artId;
 
-    private Long userId;
+    private Long authId;
 
     private String title;
 
-    private Integer type;
+    private Integer visitornum;
 
-    private Date publishdate;
+    private Integer thumb;
 
-    private String visitornum;
+    private Integer collect;
 
     private Integer outstanding;
 
@@ -25,11 +25,11 @@ public class Article {
 
     private String url;
 
-    private Date createTime;
+    private Date publishdate;
 
     private Date updateTime;
 
-    private byte[] blob;
+    private String comeFrom;
 
     public Integer getArtId() {
         return artId;
@@ -39,12 +39,12 @@ public class Article {
         this.artId = artId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getAuthId() {
+        return authId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setAuthId(Long authId) {
+        this.authId = authId;
     }
 
     public String getTitle() {
@@ -55,28 +55,28 @@ public class Article {
         this.title = title == null ? null : title.trim();
     }
 
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Date getPublishdate() {
-        return publishdate;
-    }
-
-    public void setPublishdate(Date publishdate) {
-        this.publishdate = publishdate;
-    }
-
-    public String getVisitornum() {
+    public Integer getVisitornum() {
         return visitornum;
     }
 
-    public void setVisitornum(String visitornum) {
-        this.visitornum = visitornum == null ? null : visitornum.trim();
+    public void setVisitornum(Integer visitornum) {
+        this.visitornum = visitornum;
+    }
+
+    public Integer getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(Integer thumb) {
+        this.thumb = thumb;
+    }
+
+    public Integer getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Integer collect) {
+        this.collect = collect;
     }
 
     public Integer getOutstanding() {
@@ -119,12 +119,12 @@ public class Article {
         this.url = url == null ? null : url.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getPublishdate() {
+        return publishdate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setPublishdate(Date publishdate) {
+        this.publishdate = publishdate;
     }
 
     public Date getUpdateTime() {
@@ -135,11 +135,11 @@ public class Article {
         this.updateTime = updateTime;
     }
 
-    public byte[] getBlob() {
-        return blob;
+    public String getComeFrom() {
+        return comeFrom;
     }
 
-    public void setBlob(byte[] blob) {
-        this.blob = blob;
+    public void setComeFrom(String comeFrom) {
+        this.comeFrom = comeFrom == null ? null : comeFrom.trim();
     }
 }

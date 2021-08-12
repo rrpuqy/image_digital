@@ -1,7 +1,12 @@
 package com.example.digitalimage.model.dao;
 
 import com.example.digitalimage.model.entity.Comment;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+
+@Mapper
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer comId);
 
@@ -14,4 +19,6 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    List<Comment> selectAll();
 }

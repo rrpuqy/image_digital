@@ -19,6 +19,9 @@
     from comment
     where com_id = #{comId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultType="com.example.digitalimage.model.entity.Comment">
+    select * from comment
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from comment
     where com_id = #{comId,jdbcType=INTEGER}
