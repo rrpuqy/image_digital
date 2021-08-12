@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.digitalimage.model.dao.AriticleCommentMapper">
     <resultMap id="articleDetail" type="com.example.digitalimage.model.entity.ArticleAndComment">
-        <id property="artId" column="art_id"/>
+        <id property="artId" column="art_id" javaType="java.lang.Long"/>
         <result property="title" column="title"/>
         <association property="articleContent" column="art_id" select="com.example.digitalimage.model.dao.ArticleContentMapper.selectByPrimaryKey"/>
         <collection property="commentList" column="art_id" select="getCommentForArt"/>
     </resultMap>
-    <select id="getCommentForArt" parameterType="integer" resultType="com.example.digitalimage.model.entity.Comment">
+    <select id="getCommentForArt" parameterType="java.lang.Long" resultType="com.example.digitalimage.model.entity.Comment">
         select * from comment where article_id = #{id}
     </select>
-    <select id="getById" resultMap="articleDetail" parameterType="integer">
+    <select id="getById" resultMap="articleDetail" parameterType="java.lang.Long">
         select * from article where art_id = #{id}
     </select>
+
+<!--    <select id="selectAll" resultType="">-->
+<!--        select * from article-->
+<!--    </select>-->
 </mapper>

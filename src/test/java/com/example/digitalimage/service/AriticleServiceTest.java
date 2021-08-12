@@ -16,7 +16,7 @@ class AriticleServiceTest {
     @Test
     void test(){
 //        ariticleService = new AriticleService();
-        System.out.println(ariticleService.getDetail(1));
+//        System.out.println(ariticleService.getDetail(1));
     }
 
 }

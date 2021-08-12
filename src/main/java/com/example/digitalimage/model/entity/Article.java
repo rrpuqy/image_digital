@@ -3,7 +3,7 @@ package com.example.digitalimage.model.entity;
 import java.util.Date;
 
 public class Article {
-    private Integer artId;
+    private Long artId;
 
     private Long authId;
 
@@ -31,11 +31,13 @@ public class Article {
 
     private String comeFrom;
 
-    public Integer getArtId() {
+    private String category;
+
+    public Long getArtId() {
         return artId;
     }
 
-    public void setArtId(Integer artId) {
+    public void setArtId(Long artId) {
         this.artId = artId;
     }
 
@@ -141,5 +143,13 @@ public class Article {
 
     public void setComeFrom(String comeFrom) {
         this.comeFrom = comeFrom == null ? null : comeFrom.trim();
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
     }
 }

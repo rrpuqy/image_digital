@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AriticleCommentMapper {
-    public  ArticleAndComment getById(Integer id);
-    public Comment getCommentForArt(Integer id);
+    public  ArticleAndComment getById(Long id);
+    public Comment getCommentForArt(Long id);
 }

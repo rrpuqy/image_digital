@@ -1,19 +1,15 @@
 package com.example.digitalimage.model.entity;
 
-
-import lombok.ToString;
-
-@ToString
 public class ArticleContent {
-    private Integer artId;
+    private Long artId;
 
     private String content;
 
-    public Integer getArtId() {
+    public Long getArtId() {
         return artId;
     }
 
-    public void setArtId(Integer artId) {
+    public void setArtId(Long artId) {
         this.artId = artId;
     }
 

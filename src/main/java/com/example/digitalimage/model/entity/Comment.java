@@ -11,7 +11,7 @@ public class Comment {
 
     private Long authId;
 
-    private Integer articleId;
+    private Long articleId;
 
     private String content;
 
@@ -37,11 +37,11 @@ public class Comment {
         this.authId = authId;
     }
 
-    public Integer getArticleId() {
+    public Long getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(Integer articleId) {
+    public void setArticleId(Long articleId) {
         this.articleId = articleId;
     }
 

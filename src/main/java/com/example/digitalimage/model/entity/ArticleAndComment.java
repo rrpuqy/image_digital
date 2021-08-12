@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @ToString
 public class ArticleAndComment {
-    private Integer artId;
+    private Long artId;
 
     private Long authId;
 
@@ -23,6 +23,5 @@ public class ArticleAndComment {
     private ArticleContent articleContent;
 
     List<Comment> commentList;
-
 
 }
