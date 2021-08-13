@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.digitalimage.model.dao.ArticleMapper">
   <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.Article">
-    <id column="art_id" jdbcType="INTEGER" property="artId" />
+    <id column="art_id" jdbcType="BIGINT" property="artId" />
     <result column="auth_id" jdbcType="BIGINT" property="authId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="visitornum" jdbcType="INTEGER" property="visitornum" />
@@ -16,32 +16,35 @@
     <result column="publishdate" jdbcType="TIMESTAMP" property="publishdate" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="come_from" jdbcType="VARCHAR" property="comeFrom" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
   </resultMap>
   <sql id="Base_Column_List">
     art_id, auth_id, title, visitornum, thumb, `collect`, outstanding, `status`, imgurl, 
-    abstruct, url, publishdate, update_time, come_from
+    abstruct, url, publishdate, update_time, come_from, category
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from article
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from article
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.digitalimage.model.entity.Article">
     insert into article (art_id, auth_id, title, 
       visitornum, thumb, `collect`, 
       outstanding, `status`, imgurl, 
       abstruct, url, publishdate, 
-      update_time, come_from)
-    values (#{artId,jdbcType=INTEGER}, #{authId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      update_time, come_from, category
+      )
+    values (#{artId,jdbcType=BIGINT}, #{authId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
       #{visitornum,jdbcType=INTEGER}, #{thumb,jdbcType=INTEGER}, #{collect,jdbcType=INTEGER}, 
       #{outstanding,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, 
       #{abstruct,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{comeFrom,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{comeFrom,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.Article">
     insert into article
@@ -88,10 +91,13 @@
       <if test="comeFrom != null">
         come_from,
       </if>
+      <if test="category != null">
+        category,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="artId != null">
-        #{artId,jdbcType=INTEGER},
+        #{artId,jdbcType=BIGINT},
       </if>
       <if test="authId != null">
         #{authId,jdbcType=BIGINT},
@@ -131,6 +137,9 @@
       </if>
       <if test="comeFrom != null">
         #{comeFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -176,8 +185,11 @@
       <if test="comeFrom != null">
         come_from = #{comeFrom,jdbcType=VARCHAR},
       </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
     </set>
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.Article">
     update article
@@ -193,7 +205,11 @@
       url = #{url,jdbcType=VARCHAR},
       publishdate = #{publishdate,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      come_from = #{comeFrom,jdbcType=VARCHAR}
-    where art_id = #{artId,jdbcType=INTEGER}
+      come_from = #{comeFrom,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR}
+    where art_id = #{artId,jdbcType=BIGINT}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from article
+  </select>
 </mapper>

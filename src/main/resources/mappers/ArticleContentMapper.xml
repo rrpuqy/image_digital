@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.digitalimage.model.dao.ArticleContentMapper">
   <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.ArticleContent">
-    <id column="art_id" jdbcType="INTEGER" property="artId" />
+    <id column="art_id" jdbcType="BIGINT" property="artId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.example.digitalimage.model.entity.ArticleContent">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -13,21 +13,21 @@
   <sql id="Blob_Column_List">
     content
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from article_content
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from article_content
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.digitalimage.model.entity.ArticleContent">
     insert into article_content (art_id, content)
-    values (#{artId,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+    values (#{artId,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.ArticleContent">
     insert into article_content
@@ -41,7 +41,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="artId != null">
-        #{artId,jdbcType=INTEGER},
+        #{artId,jdbcType=BIGINT},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -55,11 +55,11 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.digitalimage.model.entity.ArticleContent">
     update article_content
     set content = #{content,jdbcType=LONGVARCHAR}
-    where art_id = #{artId,jdbcType=INTEGER}
+    where art_id = #{artId,jdbcType=BIGINT}
   </update>
 </mapper>
