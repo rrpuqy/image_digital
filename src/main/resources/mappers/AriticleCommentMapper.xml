@@ -13,6 +13,10 @@
     <select id="getById" resultMap="articleDetail" parameterType="java.lang.Long">
         select * from article where art_id = #{id}
     </select>
+    <update id="addVisitorNum" parameterType="java.lang.Long">
+        update article set visitornum = visitornum+1
+        where art_id = #{id}
+    </update>
 
 <!--    <select id="selectAll" resultType="">-->
 <!--        select * from article-->

@@ -12,7 +12,7 @@ public interface ArticleMapper {
 
     int insert(Article record);
 
-    int insertSelective(Article record);
+    Long insertSelective(Article record);
 
     Article selectByPrimaryKey(Long artId);
 
@@ -21,4 +21,7 @@ public interface ArticleMapper {
     int updateByPrimaryKey(Article record);
 
     List<Article> selectAll();
+
+    List<Article> select_by_category(String category_name);
+
 }

@@ -25,7 +25,7 @@ public class Article {
 
     private String url;
 
-    private Date publishdate;
+    private String publishdate;
 
     private Date updateTime;
 
@@ -121,11 +121,11 @@ public class Article {
         this.url = url == null ? null : url.trim();
     }
 
-    public Date getPublishdate() {
+    public String getPublishdate() {
         return publishdate;
     }
 
-    public void setPublishdate(Date publishdate) {
+    public void setPublishdate(String publishdate) {
         this.publishdate = publishdate;
     }
 

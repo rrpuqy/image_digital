@@ -46,7 +46,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{comeFrom,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.Article">
+  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.Article" useGeneratedKeys="true" keyProperty="artId" keyColumn="art_id">
     insert into article
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="artId != null">
@@ -211,5 +211,10 @@
   </update>
   <select id="selectAll" resultMap="BaseResultMap">
     select * from article
+  </select>
+  <select id="select_by_category" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from article
+    where category like "%"#{category_name,jdbcType=VARCHAR}"%"
+    order by visitornum DESC
   </select>
 </mapper>

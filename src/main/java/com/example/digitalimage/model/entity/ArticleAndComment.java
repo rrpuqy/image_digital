@@ -16,11 +16,13 @@ public class ArticleAndComment {
 
     private String title;
 
-    private Date publishdate;
+    private String publishdate;
 
     private String abstruct;
 
     private ArticleContent articleContent;
+
+    private String comeFrom;
 
     List<Comment> commentList;
 

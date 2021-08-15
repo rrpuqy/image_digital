@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.Comment">
     <id column="com_id" jdbcType="INTEGER" property="comId" />
     <result column="auth_id" jdbcType="BIGINT" property="authId" />
-    <result column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="article_id" jdbcType="BIGINT" property="articleId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="ignore" jdbcType="INTEGER" property="ignore" />
@@ -30,7 +30,7 @@
     insert into comment (com_id, auth_id, article_id, 
       content, `status`, `ignore`, 
       publishdate)
-    values (#{comId,jdbcType=INTEGER}, #{authId,jdbcType=BIGINT}, #{articleId,jdbcType=INTEGER}, 
+    values (#{comId,jdbcType=INTEGER}, #{authId,jdbcType=BIGINT}, #{articleId,jdbcType=BIGINT},
       #{content,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ignore,jdbcType=INTEGER}, 
       #{publishdate,jdbcType=TIMESTAMP})
   </insert>
@@ -67,7 +67,7 @@
         #{authId,jdbcType=BIGINT},
       </if>
       <if test="articleId != null">
-        #{articleId,jdbcType=INTEGER},
+        #{articleId,jdbcType=BIGINT},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -90,7 +90,7 @@
         auth_id = #{authId,jdbcType=BIGINT},
       </if>
       <if test="articleId != null">
-        article_id = #{articleId,jdbcType=INTEGER},
+        article_id = #{articleId,jdbcType=BIGINT},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -110,7 +110,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.Comment">
     update comment
     set auth_id = #{authId,jdbcType=BIGINT},
-      article_id = #{articleId,jdbcType=INTEGER},
+      article_id = #{articleId,jdbcType=BIGINT},
       content = #{content,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       `ignore` = #{ignore,jdbcType=INTEGER},
