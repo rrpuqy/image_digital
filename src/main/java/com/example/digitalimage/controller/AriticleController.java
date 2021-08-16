@@ -1,20 +1,21 @@
-package com.example.digitalimage.contorller;
+package com.example.digitalimage.controller;
 
 
 import com.example.digitalimage.common.ApiRequestResponse;
-import com.example.digitalimage.model.dao.ArticleMapper;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.ArticleAndComment;
 import com.example.digitalimage.service.AriticleService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/article")
+@Api(tags = "文章相关api")
 public class AriticleController extends BaseController {
 
     @Autowired
@@ -25,6 +26,13 @@ public class AriticleController extends BaseController {
     public List<Article> getList(@RequestParam String category){
         return this.ariticleService.select_by_category(category);
     }
+
+
+    @GetMapping("/getAll")
+    public List<Article> getAll(){
+        return  this.ariticleService.getAll();
+    }
+
 
     @GetMapping("/publish")
     public ApiRequestResponse publish(@RequestParam String title, @RequestParam String content, @RequestParam String category){
@@ -45,6 +53,7 @@ public class AriticleController extends BaseController {
             return this.renderError("删除文章失败，请重试");
     }
 
+    @ApiOperation("获取文章详情")
     @GetMapping("/get_detail")
     public ArticleAndComment getDetail(@RequestParam Long id){
         return this.ariticleService.getDetail(id);

@@ -1,10 +1,16 @@
 package com.example.digitalimage.model.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.util.Date;
 
 public class Article {
+
+    @JsonSerialize(using= ToStringSerializer.class)
     private Long artId;
 
+    @JsonSerialize(using=ToStringSerializer.class)
     private Long authId;
 
     private String title;

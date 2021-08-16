@@ -1,4 +1,4 @@
-package com.example.digitalimage.contorller;
+package com.example.digitalimage.controller;
 
 import com.example.digitalimage.common.ApiCode;
 import com.example.digitalimage.common.ApiRequestResponse;

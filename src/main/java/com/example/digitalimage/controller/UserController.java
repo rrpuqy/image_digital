@@ -1,4 +1,4 @@
-package com.example.digitalimage.contorller;
+package com.example.digitalimage.controller;
 
 import com.example.digitalimage.common.ApiRequestResponse;
 import com.example.digitalimage.model.entity.User;

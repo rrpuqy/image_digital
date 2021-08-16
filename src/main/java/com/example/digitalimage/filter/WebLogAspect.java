@@ -23,7 +23,7 @@ public class WebLogAspect {
 
 
 
-    @Pointcut("execution(public * com.example.digitalimage.contorller.*.*(..)))")
+    @Pointcut("execution(public * com.example.digitalimage.controller.*.*(..)))")
     public void webLog() {
 
     }

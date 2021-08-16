@@ -8,6 +8,7 @@ import com.example.digitalimage.model.entity.ArticleAndComment;
 import com.example.digitalimage.model.entity.ArticleContent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +40,10 @@ public class AriticleService {
         return  this.articleMapper.select_by_category(category_name);
     }
 
+    public List<Article> getAll(){
+        return this.articleMapper.selectAll();
+    }
+    @Transactional
     public int publish(String title, String content, String category){
         Article article = new Article();
         article.setTitle(title);
