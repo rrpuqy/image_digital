@@ -4,6 +4,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.example.digitalimage.exception.ExceptionEnum;
 import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.dao.UserMapper;
+import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.vo.RegisterVo;
 import com.example.digitalimage.model.vo.UserVo;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServlet;
 import javax.validation.Valid;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -25,6 +27,7 @@ public class UserService {
     @Autowired
     TokenService tokenService;
 
+
     public User login(UserVo userVo) {
         userVo.setPassword(DigestUtil.md5Hex(userVo.getPassword()));
         User user = userMapper.selectLogin(userVo);
@@ -32,6 +35,9 @@ public class UserService {
         return user;
     }
 
+    public List<Article> getCollect(Long id){
+        return  this.userMapper.getCollect(id);
+    }
     public int register(RegisterVo registerVo){
         User user = new User();
         log.info("registerVo",registerVo);

@@ -4,6 +4,8 @@ package com.example.digitalimage.controller;
 import com.example.digitalimage.common.ApiRequestResponse;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.ArticleAndComment;
+import com.example.digitalimage.model.entity.ArticleAndContent;
+import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.service.AriticleService;
 
 import io.swagger.annotations.Api;
@@ -11,32 +13,41 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.stream.events.Comment;
 import java.util.List;
 
 @RestController
 @RequestMapping("/article")
-@Api(tags = "文章相关api")
+@Api(tags = "文章相关接口")
 public class AriticleController extends BaseController {
 
     @Autowired
     AriticleService ariticleService;
 
-
+    @ApiOperation("根据类别获得文章列表")
     @GetMapping("/get_list")
-    public List<Article> getList(@RequestParam String category){
-        return this.ariticleService.select_by_category(category);
+    public ApiRequestResponse<List<Article>> getList(@RequestParam String category){
+        return ApiRequestResponse.success(this.ariticleService.select_by_category(category));
     }
 
-
+    @ApiOperation("用户收藏点赞浏览")
+    @PostMapping("add_behavior")
+    public ApiRequestResponse addBehavior(@RequestBody UserArticle userArticle){
+        this.ariticleService.addBehavior(userArticle);
+        return renderSuccess();
+    }
+    @ApiOperation("获得全部文章列表")
     @GetMapping("/getAll")
-    public List<Article> getAll(){
-        return  this.ariticleService.getAll();
+    public ApiRequestResponse<List<Article>> getAll(){
+        return ApiRequestResponse.success(this.ariticleService.getAll());
     }
 
 
-    @GetMapping("/publish")
-    public ApiRequestResponse publish(@RequestParam String title, @RequestParam String content, @RequestParam String category){
-        int ret = this.ariticleService.publish(title,content,category);
+
+    @ApiOperation("用户上传文章")
+    @PostMapping("/publish")
+    public ApiRequestResponse publish(@RequestBody ArticleAndContent articleAndContent){
+        int ret = this.ariticleService.publish(articleAndContent);
         System.out.println(ret);
         if(ret>0)
             return renderSuccess();
@@ -52,6 +63,9 @@ public class AriticleController extends BaseController {
         else
             return this.renderError("删除文章失败，请重试");
     }
+
+
+
 
     @ApiOperation("获取文章详情")
     @GetMapping("/get_detail")

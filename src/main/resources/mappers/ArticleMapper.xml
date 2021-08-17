@@ -143,6 +143,20 @@
       </if>
     </trim>
   </insert>
+  <update id="addCollect">
+    update article set collect=collect+1
+    where art_id=#{id}
+  </update>
+  <update id="addLike">
+    update  article set thumb = thumb+1
+    where art_id=#{id}
+  </update>
+
+  <update id="addVisitorNum" parameterType="java.lang.Long">
+      update article set visitornum = visitornum+1
+      where art_id = #{id}
+    </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.Article">
     update article
     <set>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.digitalimage.model.dao.UserArticleMapper">
+  <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.UserArticle">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="art_id" jdbcType="BIGINT" property="artId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="generate_date" jdbcType="TIME" property="generateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, art_id, `type`, generate_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.digitalimage.model.entity.UserArticle">
+    insert into user_article (id, user_id, art_id, 
+      `type`, generate_date)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{artId,jdbcType=BIGINT}, 
+      #{type,jdbcType=INTEGER}, #{generateDate,jdbcType=TIME})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.UserArticle">
+    insert into user_article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="artId != null">
+        art_id,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="generateDate != null">
+        generate_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="artId != null">
+        #{artId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="generateDate != null">
+        #{generateDate,jdbcType=TIME},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.UserArticle">
+    update user_article
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="artId != null">
+        art_id = #{artId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="generateDate != null">
+        generate_date = #{generateDate,jdbcType=TIME},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.UserArticle">
+    update user_article
+    set user_id = #{userId,jdbcType=BIGINT},
+      art_id = #{artId,jdbcType=BIGINT},
+      `type` = #{type,jdbcType=INTEGER},
+      generate_date = #{generateDate,jdbcType=TIME}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

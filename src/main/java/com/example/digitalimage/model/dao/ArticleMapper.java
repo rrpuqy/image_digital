@@ -24,4 +24,10 @@ public interface ArticleMapper {
 
     List<Article> select_by_category(String category_name);
 
+    int addVisitorNum(Long id);
+
+    int addLike(Long id);
+
+    int addCollect(Long id);
+
 }

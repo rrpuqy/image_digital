@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.digitalimage.model.dao.AriticleCommentMapper">
+<mapper namespace="com.example.digitalimage.model.dao.ArticleCommentMapper">
     <resultMap id="articleDetail" type="com.example.digitalimage.model.entity.ArticleAndComment">
         <id property="artId" column="art_id" javaType="java.lang.Long"/>
         <result property="title" column="title"/>
@@ -13,10 +13,7 @@
     <select id="getById" resultMap="articleDetail" parameterType="java.lang.Long">
         select * from article where art_id = #{id}
     </select>
-    <update id="addVisitorNum" parameterType="java.lang.Long">
-        update article set visitornum = visitornum+1
-        where art_id = #{id}
-    </update>
+
 
 <!--    <select id="selectAll" resultType="">-->
 <!--        select * from article-->

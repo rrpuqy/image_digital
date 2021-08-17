@@ -235,4 +235,7 @@
     from user
     where user_id = #{userId}
   </select>
+  <select id="getCollect" resultType="com.example.digitalimage.model.entity.Article">
+    select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id}
+  </select>
 </mapper>
