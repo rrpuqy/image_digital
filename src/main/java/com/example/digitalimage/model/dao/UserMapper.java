@@ -27,4 +27,6 @@ public interface UserMapper {
 
     List<Article> getCollect(Long id);
 
+    List<Long> getUserId();
+
 }

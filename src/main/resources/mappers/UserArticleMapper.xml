@@ -90,4 +90,20 @@
       generate_date = #{generateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getLookNum" resultType="java.lang.Integer">
+    select count(*)
+    from user_article
+    <where>
+      <if test="start_date!=null and start_date!=''">
+        generate_date &gt;= #{start_date}
+      </if>
+      <if test="current_date!=null and current_date!=''">
+        and generate_date &lt;= #{current_date}
+      </if>
+        and user_id = #{id}
+    </where>
+  </select>
+  <select id="getAll" resultType="java.lang.String">
+    select generate_date from user_article
+  </select>
 </mapper>

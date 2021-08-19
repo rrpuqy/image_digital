@@ -238,4 +238,7 @@
   <select id="getCollect" resultType="com.example.digitalimage.model.entity.Article">
     select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id}
   </select>
+  <select id="getUserId">
+    select user_id from user
+  </select>
 </mapper>
