@@ -8,6 +8,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ArticleCommentMapper {
     ArticleAndComment getById(Long id);
     Comment getCommentForArt(Long id);
-//    int addVisitorNum(Long id);
-//    int addThump(Long id);
+    int addVisitorNum(Long id);
+    int addThumpNum(Long id);
+    int addCollectionNum(Long id);
+    int decThumpNum(Long id);
+    int decCollectionNum(Long id);
 }

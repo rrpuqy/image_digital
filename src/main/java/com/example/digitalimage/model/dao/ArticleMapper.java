@@ -3,6 +3,7 @@ package com.example.digitalimage.model.dao;
 import com.example.digitalimage.model.entity.Article;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,4 +35,5 @@ public interface ArticleMapper {
 
     int deleteCollect(Long id);
 
+    int getPublishNum(String start_date, String current_date, Long id);
 }

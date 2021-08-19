@@ -31,4 +31,6 @@ public interface UserMapper {
     List<Article> getLike(Long id);
 
     List<UserArticle> getBehavior(Long userId,Long artId);
+    List<Long> getUserId();
+
 }

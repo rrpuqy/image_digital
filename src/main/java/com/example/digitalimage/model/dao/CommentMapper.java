@@ -3,6 +3,7 @@ package com.example.digitalimage.model.dao;
 import com.example.digitalimage.model.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -21,4 +22,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     List<Comment> selectAll();
+
+    int getCommentNum(String start_date, String current_date, Long id);
 }

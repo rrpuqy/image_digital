@@ -6,7 +6,11 @@ import lombok.Getter;
 public enum Behavior {
     LOOK(1),
     LIKE(2),
-    COLLECT(3);
+    COLLECT(3),
+    PUBLISH(4),
+    COMMENT(5),
+    LOGIN(6);
+
 
     private Integer value;
 

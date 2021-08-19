@@ -244,5 +244,8 @@
   <select id="getBehavior" resultType="com.example.digitalimage.model.entity.UserArticle">
     select * from user_article where user_id =#{userId} and art_id = #{artId}
   </select>
+  <select id="getUserId">
+    select user_id from user
+  </select>
 
 </mapper>

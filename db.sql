@@ -27,7 +27,7 @@ CREATE TABLE `article`  (
                             `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章标题',
                             `visitornum` int NULL DEFAULT 0 COMMENT '浏览量',
                             `thumb` int NULL DEFAULT 0 COMMENT '点赞数',
-                            `collect` int NULL DEFAULT NULL,
+                            `collect` int NULL DEFAULT 0 COMMENT '收藏数',
                             `outstanding` int NULL DEFAULT NULL COMMENT '是否首页轮播推荐',
                             `status` int NULL DEFAULT NULL COMMENT '当前文章的状态 1正常 0正在编辑',
                             `imgurl` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -540,11 +540,12 @@ INSERT INTO `user` VALUES (0, 'xitong', NULL, 0000000001, 1, '2021-08-03', 'zwt@
 -- ----------------------------
 DROP TABLE IF EXISTS `user_article`;
 CREATE TABLE `user_article`  (
-                                 `id` int NOT NULL,
-                                 `user_id` int NULL DEFAULT NULL,
-                                 `art_id` int NULL DEFAULT NULL,
-                                 `type` int NULL DEFAULT NULL COMMENT '1代表浏览 2代表点赞，3代表收藏',
-                                 PRIMARY KEY (`id`) USING BTREE
+                                 `id` bigint NOT NULL AUTO_INCREMENT,
+                                 `user_id` bigint NULL DEFAULT NULL,
+                                 `art_id` bigint NULL DEFAULT NULL,
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+                                 FOREIGN KEY (`art_id`) REFERENCES `article` (`art_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -573,5 +574,78 @@ CREATE TABLE `user_log`  (
 -- ----------------------------
 INSERT INTO `user_log` VALUES (87, 'tycoding', '新增文章', 1, 'cn.tycoding.biz.controller.ArticleController.add()', ' sysArticle\"SysArticle(id=14, title=1, author=tycoding, des=1, content=1, create...', '127.0.0.1', '2020-06-28 23:07:41', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `user_log` VALUES (88, 'tycoding', '更新文章', 1, 'cn.tycoding.biz.controller.ArticleController.update()', ' sysArticle\"SysArticle(id=14, title=123, author=tycoding, des=1, content=1, crea...', '127.0.0.1', '2020-06-28 23:07:55', '内网IP|0|0|内网IP|内网IP');
+
+-- ----------------------------
+-- Table structure for task
+-- ----------------------------
+DROP TABLE IF EXISTS `task`;
+CREATE TABLE `task`  (
+                             `task_id` int NOT NULL AUTO_INCREMENT COMMENT '编号',
+                             `content` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务描述',
+                             `task_status` int NULL DEFAULT 0 COMMENT '0 失效 1 每日任务 7 每周任务',
+                             `type` int NULL DEFAULT 0 COMMENT '任务类型 0 任务类型未定义 1代表浏览 2代表点赞，3代表收藏 4代表发表 5代表评论 6代表登录',
+                             `tol_num`  int NOT NULL DEFAULT 1 COMMENT '任务数量 如阅读十篇文章即为10，连续登录7天即为7',
+                             `exp` int NOT NULL DEFAULT 0 COMMENT '经验',
+                             `point` int NOT NULL DEFAULT 0 COMMENT '积分',
+                             PRIMARY KEY (`task_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of task
+-- ----------------------------
+INSERT INTO `task` VALUES (1, '每日登录', 1, 1, 1, 10, 1);
+INSERT INTO `task` VALUES (2, '阅读10篇文章', 1, 2, 10, 20, 5);
+INSERT INTO `task` VALUES (3, '发表一篇文章', 7, 5, 1, 10, 1);
+INSERT INTO `task` VALUES (4, '阅读30篇文章', 7, 3, 30, 20, 5);
+
+-- ----------------------------
+-- Table structure for user_task
+-- ----------------------------
+DROP TABLE IF EXISTS `user_task`;
+CREATE TABLE `user_task`  (
+							 `id` bigint NOT NULL AUTO_INCREMENT,
+                             `user_id` bigint NOT NULL COMMENT '用户编号',
+                             `task_id` int NOT NULL COMMENT '任务编号',
+                             `now_num`  int NOT NULL DEFAULT 0 COMMENT '任务完成数量 如已经阅读五篇文章即为5，连续登录3天即为3',
+                             `user_task_status` int NULL DEFAULT 0 COMMENT '0 未完成 1 已完成 2 已领取',
+                             PRIMARY KEY (`id`) USING BTREE,
+                             FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+							 FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户任务表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of task
+-- ----------------------------
+INSERT INTO `user_task` VALUES (1, 2019211178, 1, 0, 0);
+INSERT INTO `user_task` VALUES (2, 2019211178, 2, 12, 1);
+INSERT INTO `user_task` VALUES (3, 2019211178, 3, 0, 0);
+INSERT INTO `user_task` VALUES (4, 2019211178, 4, 25, 1);
+
+-- ----------------------------
+-- Table structure for user_article
+-- ----------------------------
+DROP TABLE IF EXISTS `user_article`;
+CREATE TABLE `user_article`  (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NULL DEFAULT NULL,
+  `art_id` bigint NULL DEFAULT NULL,
+  `type` int NULL DEFAULT NULL COMMENT '1代表浏览 2代表点赞，3代表收藏',
+  `generate_date` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of user_article
+-- ----------------------------
+INSERT INTO `user_article` VALUES (1, 2020140000, 67, 3, NULL);
+INSERT INTO `user_article` VALUES (2, 2020140000, 71, 3, NULL);
+INSERT INTO `user_article` VALUES (3, 2020140000, 69, 1, NULL);
+INSERT INTO `user_article` VALUES (4, 2020140000, 67, 2, NULL);
+INSERT INTO `user_article` VALUES (5, 2019211178, 67, 1, NULL);
+INSERT INTO `user_article` VALUES (6, 2019211178, 67, 2, NULL);
+INSERT INTO `user_article` VALUES (7, 2019211178, 67, 3, NULL);
+INSERT INTO `user_article` VALUES (8, 2019211178, 67, 2, NULL);
+INSERT INTO `user_article` VALUES (9, 2019211178, 67, 3, NULL);
+INSERT INTO `user_article` VALUES (25, 2020140000, 67, 3, '2021-08-17 21:24:04');
 
 SET FOREIGN_KEY_CHECKS = 1;

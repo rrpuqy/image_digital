@@ -102,4 +102,17 @@ public class AriticleService {
         else
             return 0;
     }
+
+    public int addThump(Long id){
+        return this.articleCommentMapper.addThumpNum(id);
+    }
+    public int addCollection(Long id){
+        return this.articleCommentMapper.addCollectionNum(id);
+    }
+    public int decThump(Long id){
+        return this.articleCommentMapper.decThumpNum(id);
+    }
+    public int decCollection(Long id){
+        return this.articleCommentMapper.decCollectionNum(id);
+    }
 }

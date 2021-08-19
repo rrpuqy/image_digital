@@ -117,4 +117,17 @@
       publishdate = #{publishdate,jdbcType=TIMESTAMP}
     where com_id = #{comId,jdbcType=INTEGER}
   </update>
+  <select id="getCommentNum" resultType="java.lang.Integer">
+    select count(*)
+    from comment
+    <where>
+      <if test="start_date!=null and start_date!=''">
+        publishdate &gt;= #{start_date}
+      </if>
+      <if test="current_date!=null and current_date!=''">
+        and publishdate &lt;= #{current_date}
+      </if>
+      and auth_id = #{id}
+    </where>
+  </select>
 </mapper>

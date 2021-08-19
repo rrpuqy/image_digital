@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.digitalimage.model.dao.UserTaskMapper">
+  <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.UserTask">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="now_num" jdbcType="INTEGER" property="nowNum" />
+    <result column="user_task_status" jdbcType="INTEGER" property="userTaskStatus" />
+  </resultMap>
+  <resultMap id="UserTask" type="com.example.digitalimage.model.vo.TaskVo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="now_num" jdbcType="INTEGER" property="nowNum" />
+    <result column="user_task_status" jdbcType="INTEGER" property="userTaskStatus" />
+    <association property="task" column="task_id" select="com.example.digitalimage.model.dao.TaskMapper.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, task_id, now_num, user_task_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.example.digitalimage.model.entity.UserTask">
+    insert into user_task (id, user_id, task_id, 
+      now_num, user_task_status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{taskId,jdbcType=INTEGER}, 
+      #{nowNum,jdbcType=INTEGER}, #{userTaskStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.UserTask">
+    insert into user_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="nowNum != null">
+        now_num,
+      </if>
+      <if test="userTaskStatus != null">
+        user_task_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="nowNum != null">
+        #{nowNum,jdbcType=INTEGER},
+      </if>
+      <if test="userTaskStatus != null">
+        #{userTaskStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.digitalimage.model.entity.UserTask">
+    update user_task
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="nowNum != null">
+        now_num = #{nowNum,jdbcType=INTEGER},
+      </if>
+      <if test="userTaskStatus != null">
+        user_task_status = #{userTaskStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.UserTask">
+    update user_task
+    set user_id = #{userId,jdbcType=BIGINT},
+      task_id = #{taskId,jdbcType=INTEGER},
+      now_num = #{nowNum,jdbcType=INTEGER},
+      user_task_status = #{userTaskStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByTaskIdAndUserId" parameterType="com.example.digitalimage.model.vo.TaskVo">
+    update user_task
+    set now_num = #{nowNum,jdbcType=INTEGER},
+        user_task_status = #{userTaskStatus,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=BIGINT} and task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <select id="getList" parameterType="java.lang.Long" resultMap="UserTask">
+    select t.*,u.user_id,u.now_num, u.user_task_status
+    from task t,user_task u
+    where t.task_id = u.task_id and u.user_id = #{id}
+  </select>
+  <update id="updateDailyTask" parameterType="java.lang.Long">
+    update user_task
+    set now_num = 0,
+        user_task_status = 0
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateWeeklyTask" parameterType="java.lang.Long">
+    update user_task
+    set now_num = 0,
+        user_task_status = 0
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="finishTask">
+    update user_task
+    set user_task_status = 2
+    where task_id = #{taskId,jdbcType=INTEGER} and user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <insert id="initTask">
+    insert into user_task (user_id, task_id,
+      now_num, user_task_status)
+    values (#{userId,jdbcType=BIGINT}, #{taskId,jdbcType=INTEGER}, 0, 0)
+  </insert>
+</mapper>
