@@ -6,6 +6,7 @@ import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.dao.UserMapper;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
+import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.vo.RegisterVo;
 import com.example.digitalimage.model.vo.UserVo;
 import lombok.extern.log4j.Log4j2;
@@ -38,6 +39,13 @@ public class UserService {
     public List<Article> getCollect(Long id){
         return  this.userMapper.getCollect(id);
     }
+    public List<Article> getLike(Long id){
+        return this.userMapper.getLike(id);
+    }
+    public List<UserArticle> getBehavior(Long userId,Long artId){
+        return this.userMapper.getBehavior(userId,artId);
+    }
+
     public int register(RegisterVo registerVo){
         User user = new User();
         log.info("registerVo",registerVo);

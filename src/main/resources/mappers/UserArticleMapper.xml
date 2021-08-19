@@ -17,6 +17,9 @@
     from user_article
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByAll" resultType="com.example.digitalimage.model.entity.UserArticle">
+    select * from  user_article where  art_id =#{artId} and user_id = #{userId} and type = #{type}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user_article
     where id = #{id,jdbcType=BIGINT}

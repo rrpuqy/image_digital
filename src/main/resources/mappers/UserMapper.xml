@@ -236,6 +236,13 @@
     where user_id = #{userId}
   </select>
   <select id="getCollect" resultType="com.example.digitalimage.model.entity.Article">
-    select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id}
+    select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id} where ua.type = 3
   </select>
+  <select id="getLike" resultType="com.example.digitalimage.model.entity.Article">
+    select * from article inner  join  user_article ua on article.art_id = ua.art_id and ua.user_id =#{id} where ua.type = 2
+  </select>
+  <select id="getBehavior" resultType="com.example.digitalimage.model.entity.UserArticle">
+    select * from user_article where user_id =#{userId} and art_id = #{artId}
+  </select>
+
 </mapper>

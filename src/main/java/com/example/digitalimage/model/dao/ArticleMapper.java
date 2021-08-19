@@ -30,4 +30,8 @@ public interface ArticleMapper {
 
     int addCollect(Long id);
 
+    int deleteLike(Long id);
+
+    int deleteCollect(Long id);
+
 }

@@ -32,7 +32,13 @@
     delete from article
     where art_id = #{artId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.example.digitalimage.model.entity.Article">
+  <update id="deleteCollect">
+    update article set collect =collect -1 where art_id = #{id} and collect>0
+  </update>
+  <update id="deleteLike">
+      update article set thumb = thumb -1 where art_id = #{id} and thumb>0
+    </update>
+    <insert id="insert" parameterType="com.example.digitalimage.model.entity.Article">
     insert into article (art_id, auth_id, title, 
       visitornum, thumb, `collect`, 
       outstanding, `status`, imgurl, 

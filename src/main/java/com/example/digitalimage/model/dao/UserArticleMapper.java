@@ -1,5 +1,6 @@
 package com.example.digitalimage.model.dao;
 
+import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.entity.UserArticle;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +13,8 @@ public interface UserArticleMapper {
     int insertSelective(UserArticle record);
 
     UserArticle selectByPrimaryKey(Long id);
+
+    UserArticle selectByAll(UserArticle userArticle);
 
     int updateByPrimaryKeySelective(UserArticle record);
 

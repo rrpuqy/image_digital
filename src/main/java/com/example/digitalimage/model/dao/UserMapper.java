@@ -2,6 +2,7 @@ package com.example.digitalimage.model.dao;
 
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
+import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -27,4 +28,7 @@ public interface UserMapper {
 
     List<Article> getCollect(Long id);
 
+    List<Article> getLike(Long id);
+
+    List<UserArticle> getBehavior(Long userId,Long artId);
 }

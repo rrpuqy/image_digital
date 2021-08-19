@@ -33,6 +33,8 @@ public class AriticleService {
 
     @Transactional(rollbackFor = Exception.class)
     public  void addBehavior(UserArticle userArticle) {
+        if (userArticleMapper.selectByAll(userArticle)!=null)
+            throw new MyException(ExceptionEnum.INSERT_FAILED);
         int type = userArticle.getType();
         if(type == Behavior.LOOK.getValue()){
             articleMapper.addVisitorNum(userArticle.getArtId());
@@ -49,7 +51,18 @@ public class AriticleService {
         return articleAndComment;
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteBehavior(UserArticle userArt){
+        UserArticle userArticle = userArticleMapper.selectByAll(userArt);
+        if(userArticle == null)
+            throw  new MyException(ExceptionEnum.DELETE_FAILED);
+        int type = userArticle.getType();
+        if(type == Behavior.COLLECT.getValue()){
+            articleMapper.deleteCollect(userArticle.getArtId());
+        }
+        else if(type==Behavior.LIKE.getValue()) articleMapper.deleteLike(userArticle.getArtId());
+        userArticleMapper.deleteByPrimaryKey(userArticle.getId());
+    }
 
     public List<Article> selectAll(){
         return  this.articleMapper.selectAll();

@@ -8,6 +8,8 @@ import com.example.digitalimage.model.entity.ArticleAndContent;
 import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.service.AriticleService;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.stream.events.Comment;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/article")
@@ -36,14 +39,19 @@ public class AriticleController extends BaseController {
         this.ariticleService.addBehavior(userArticle);
         return renderSuccess();
     }
+
     @ApiOperation("获得全部文章列表")
     @GetMapping("/getAll")
     public ApiRequestResponse<List<Article>> getAll(){
         return ApiRequestResponse.success(this.ariticleService.getAll());
     }
 
-
-
+    @ApiOperation("取消点赞收藏")
+    @PostMapping("delete_behavior")
+    public ApiRequestResponse deleteBehavior(@RequestBody UserArticle userArticle)  {
+        this.ariticleService.deleteBehavior(userArticle);
+        return  ApiRequestResponse.success();
+    }
     @ApiOperation("用户上传文章")
     @PostMapping("/publish")
     public ApiRequestResponse publish(@RequestBody ArticleAndContent articleAndContent){
@@ -69,8 +77,8 @@ public class AriticleController extends BaseController {
 
     @ApiOperation("获取文章详情")
     @GetMapping("/get_detail")
-    public ArticleAndComment getDetail(@RequestParam Long id){
-        return this.ariticleService.getDetail(id);
+    public ApiRequestResponse<ArticleAndComment> getDetail(@RequestParam Long id){
+        return ApiRequestResponse.success(this.ariticleService.getDetail(id));
     }
 }
 
