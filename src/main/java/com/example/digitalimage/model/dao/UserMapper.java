@@ -33,4 +33,9 @@ public interface UserMapper {
     List<UserArticle> getBehavior(Long userId,Long artId);
     List<Long> getUserId();
 
+    List<Article> getHistory(Long id);
+
+    int updateExpAndPoint(Integer exp,Integer point,Long userId);
+
+
 }

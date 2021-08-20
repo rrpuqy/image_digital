@@ -46,6 +46,10 @@ public class UserService {
         return this.userMapper.getBehavior(userId,artId);
     }
 
+    public List<Article> getHistory(Long id){
+        return  this.userMapper.getHistory(id);
+    }
+
     public int register(RegisterVo registerVo){
         User user = new User();
         log.info("registerVo",registerVo);

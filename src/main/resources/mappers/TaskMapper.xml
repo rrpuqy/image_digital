@@ -114,15 +114,15 @@
       point = #{point,jdbcType=INTEGER}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
-  <select id="getDailyTaskId">
+  <select id="getDailyTaskId" resultType="java.lang.Integer">
     select task_id from task
     where task_status = 1
   </select>
-  <select id="getWeeklyTaskId">
+  <select id="getWeeklyTaskId" resultType="java.lang.Integer">
     select task_id from task
     where task_status = 7
   </select>
-  <select id="getTaskId">
+  <select id="getTaskId" resultType="java.lang.Integer">
     select task_id from task
   </select>
 </mapper>

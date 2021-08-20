@@ -75,4 +75,11 @@ public class UserController extends BaseController {
         return renderSuccess(this.userService.getBehavior(userId,artId));
     }
 
+    @ApiOperation("获取历史记录")
+    @GetMapping("/get_history")
+    @ResponseBody
+    public ApiRequestResponse<List<Article>> getHistory(@RequestParam Long id){
+        return renderSuccess(this.userService.getHistory(id));
+    }
+
 }

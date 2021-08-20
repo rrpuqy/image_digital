@@ -244,8 +244,16 @@
   <select id="getBehavior" resultType="com.example.digitalimage.model.entity.UserArticle">
     select * from user_article where user_id =#{userId} and art_id = #{artId}
   </select>
-  <select id="getUserId">
+  <select id="getUserId" resultType="java.lang.Long">
     select user_id from user
   </select>
-
+  <update id="updateExpAndPoint">
+    update user
+    set user_exp = user_exp + #{exp} ,
+        user_point = user_point + #{point}
+    where user_id = #{userId}
+  </update>
+  <select id="getHistory" resultType="com.example.digitalimage.model.entity.Article">
+    select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id} and ua.type = 1
+  </select>
 </mapper>

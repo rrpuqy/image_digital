@@ -4,6 +4,7 @@ import com.example.digitalimage.common.Behavior;
 import com.example.digitalimage.exception.ExceptionEnum;
 import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.dao.*;
+import com.example.digitalimage.model.entity.Task;
 import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.entity.UserTask;
 import com.example.digitalimage.model.vo.TaskVo;
@@ -31,6 +32,9 @@ public class TaskService {
 
     @Autowired
     TaskMapper taskMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     public List<TaskVo> getList(Long id){
         List<TaskVo> taskList = this.userTaskMapper.getList(id);
@@ -102,6 +106,13 @@ public class TaskService {
     }
 
     public int finishTask(Long userId, Integer taskId){
+        Task task = this.taskMapper.selectByPrimaryKey(taskId);
+        Integer exp = task.getExp();
+        Integer point = task.getPoint();
+        int ret = this.userMapper.updateExpAndPoint(exp,point,userId);
+        if (ret < 0){
+            throw new MyException(ExceptionEnum.UPDATE_FAILED);
+        }
         return this.userTaskMapper.finishTask(userId,taskId);
     }
 
