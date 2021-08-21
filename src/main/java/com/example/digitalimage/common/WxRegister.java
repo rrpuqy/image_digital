@@ -9,7 +9,7 @@ import javax.naming.ldap.PagedResultsControl;
 @Data
 @ToString
 public class WxRegister {
-    private String openid;
+    private String js_code;
     private Long userId;
     private String nick;
     private String avatarUrl;

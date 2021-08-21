@@ -6,6 +6,7 @@ import com.example.digitalimage.common.WxAuthRequest;
 import com.example.digitalimage.common.WxAuthResponse;
 import com.example.digitalimage.common.WxRegister;
 import com.example.digitalimage.exception.ExceptionEnum;
+import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.dao.UserMapper;
 import com.example.digitalimage.model.dao.WxLoginMapper;
 import com.example.digitalimage.model.entity.User;
@@ -56,27 +57,26 @@ public class HelloTest {
     public ApiRequestResponse wxTest(@RequestParam String js_code){
         wxAuthRequest.setJs_code(js_code);
         String url = "https://api.weixin.qq.com/sns/jscode2session?";
-
-        Map<String,Object> uriVariables = new HashMap<String,Object>();
-        uriVariables.put("appid",wxAuthRequest.getAppid());
-        uriVariables.put("secret",wxAuthRequest.getSecret());
-        uriVariables.put("js_code",wxAuthRequest.getJs_code());
-        uriVariables.put("grant_type","authorization_code");
-        String ret = sendPost(url,uriVariables);
-        System.out.println(ret);
+//
+//        Map<String,Object> uriVariables = new HashMap<String,Object>();
+//        uriVariables.put("appid",wxAuthRequest.getAppid());
+//        uriVariables.put("secret",wxAuthRequest.getSecret());
+//        uriVariables.put("js_code",wxAuthRequest.getJs_code());
+//        uriVariables.put("grant_type","authorization_code");
+//        String ret = sendPost(url,uriVariables);
+//        System.out.println(ret);
+        System.out.println();
+        String ret = getAppid();
         WxAuthResponse wxAuthResponse = JSON.parseObject(ret,WxAuthResponse.class);
         System.out.println(wxAuthResponse);
         String openid = wxAuthResponse.getOpenid();
         if(StringUtils.isEmpty(openid)) return ApiRequestResponse.error(1111,"未能获取到openid");
         WxLogin wxLogin = wxLoginMapper.selectByPrimaryKey(openid);
         if(wxLogin==null){
-            wxLogin = new WxLogin();
-            wxLogin.setOpenid(openid);
-            wxLogin.setSessionKey(wxAuthResponse.getSessionKey());
-            wxLoginMapper.insertSelective(wxLogin);
-            return ApiRequestResponse.error(ExceptionEnum.NEED_WX_LOGIN);
-        }
-        else if(wxLogin.getUserId()==null){
+//            wxLogin = new WxLogin();
+//            wxLogin.setOpenid(openid);
+//            wxLogin.setSessionKey(wxAuthResponse.getSessionKey());
+//            wxLoginMapper.insertSelective(wxLogin);
             return ApiRequestResponse.error(ExceptionEnum.NEED_WX_LOGIN);
         }
         else{
@@ -90,17 +90,38 @@ public class HelloTest {
     @PostMapping("/wxfirstlogin")
     @Transactional(rollbackFor = Exception.class)
     public ApiRequestResponse wxFirstLogin(@RequestBody WxRegister wxRegister){
-        if(wxLoginMapper.selectByPrimaryKey(wxRegister.getOpenid()).getUserId()!=null)
-            return ApiRequestResponse.error(111,"不是第一次微信登录");
+//        if(wxLoginMapper.selectByPrimaryKey(wxRegister.getOpenid()).getUserId()!=null)
+//            return ApiRequestResponse.error(111,"不是第一次微信登录");
+        System.out.println(wxRegister);
         User user = new User();
         BeanUtils.copyProperties(wxRegister,user);
+        System.out.println(user);
+
         WxLogin wxLogin = new WxLogin();
-        wxLogin.setOpenid(wxRegister.getOpenid());
-        wxLogin.setUserId(wxRegister.getUserId());
+        wxAuthRequest.setJs_code(wxRegister.getJs_code());
+        String ret = getAppid();
+        WxAuthResponse wxAuthResponse = JSON.parseObject(ret,WxAuthResponse.class);
+        if(wxAuthResponse.getOpenid()==null) throw new MyException(1111,"未能获取到openid");
+        if(wxLoginMapper.selectByPrimaryKey(wxAuthResponse.getOpenid())!=null)
+           throw  new MyException(234,"存在授权记录");
         userMapper.insertSelective(user);
-        wxLoginMapper.updateByPrimaryKeySelective(wxLogin);
-        return ApiRequestResponse.success();
+        BeanUtils.copyProperties(wxAuthResponse,wxLogin);
+        wxLogin.setUserId(wxRegister.getUserId());
+        wxLoginMapper.insertSelective(wxLogin);
+        return ApiRequestResponse.success(tokenService.getToken(wxRegister.getUserId()));
     }
+
+    private String getAppid(){
+        String url = "https://api.weixin.qq.com/sns/jscode2session?";
+        Map<String,Object> uriVariables = new HashMap<String,Object>();
+        uriVariables.put("appid",wxAuthRequest.getAppid());
+        uriVariables.put("secret",wxAuthRequest.getSecret());
+        uriVariables.put("js_code",wxAuthRequest.getJs_code());
+        uriVariables.put("grant_type","authorization_code");
+        String ret = sendPost(url,uriVariables);
+        return ret;
+    }
+
     /**
      * 向指定 URL 发送POST方法的请求
      *
