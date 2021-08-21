@@ -14,6 +14,7 @@ import com.example.digitalimage.model.entity.WxLogin;
 import com.example.digitalimage.service.TokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,11 @@ public class HelloTest {
             return ApiRequestResponse.error(ExceptionEnum.NEED_WX_LOGIN);
         }
         else{
-            return  ApiRequestResponse.success(tokenService.getToken(wxLogin.getUserId()));
+            SuccessRe successRe = new SuccessRe();
+            successRe.setUserId(wxLogin.getUserId());
+            successRe.setToken(tokenService.getToken(wxLogin.getUserId()));
+
+            return  ApiRequestResponse.success(successRe);
         }
     }
 
@@ -184,4 +189,11 @@ public class HelloTest {
         return result;
     }
 
+}
+
+@Data
+class SuccessRe {
+
+    private Long userId;
+    private String token;
 }
