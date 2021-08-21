@@ -37,5 +37,7 @@ public interface UserMapper {
 
     int updateExpAndPoint(Integer exp,Integer point,Long userId);
 
+    int updateRemainingViewNum(Long userId);
+
 
 }

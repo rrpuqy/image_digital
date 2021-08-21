@@ -36,4 +36,6 @@ public interface ArticleMapper {
     int deleteCollect(Long id);
 
     int getPublishNum(String start_date, String current_date, Long id);
+
+    int getPublishNums(Long userId);
 }

@@ -2,12 +2,13 @@ package com.example.digitalimage.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.example.digitalimage.exception.ExceptionEnum;
-import com.example.digitalimage.exception.MyException;
+import com.example.digitalimage.exception.MyException;import com.example.digitalimage.model.dao.ArticleMapper;
 import com.example.digitalimage.model.dao.UserMapper;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.vo.RegisterVo;
+import com.example.digitalimage.model.vo.UserInfoVo;
 import com.example.digitalimage.model.vo.UserVo;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,8 @@ public class UserService {
     @Autowired
     TokenService tokenService;
 
-
+    @Autowired
+    ArticleMapper articleMapper;
     public User login(UserVo userVo) {
         userVo.setPassword(DigestUtil.md5Hex(userVo.getPassword()));
         User user = userMapper.selectLogin(userVo);
@@ -63,4 +65,21 @@ public class UserService {
         return count;
     }
 
+    public void updateRemainingViewNum(){
+        List<Long> userId_List = this.userMapper.getUserId();
+        for (int i = 0 ; i < userId_List.size() ; i++){
+            Long userId = userId_List.get(i);
+            this.userMapper.updateRemainingViewNum(userId);
+        }
+    }
+
+    public UserInfoVo getUserInfo(Long userId){
+        UserInfoVo userInfoVo = new UserInfoVo();
+        User user = this.userMapper.selectByPrimaryKey(userId);
+        userInfoVo.setUserExp(user.getUserExp());
+        userInfoVo.setUserPoint(user.getUserPoint());
+        userInfoVo.setRemainingViewNum(user.getRemainingViewNum());
+        userInfoVo.setUserArtNum(this.articleMapper.getPublishNums(userId));
+        return userInfoVo;
+    }
 }
