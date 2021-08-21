@@ -5,11 +5,9 @@ import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 @Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(Long userId);
@@ -23,14 +21,13 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
-
     User selectLogin(UserVo userVo);
 
     List<Article> getCollect(Long id);
 
     List<Article> getLike(Long id);
 
-    List<UserArticle> getBehavior(Long userId,Long artId);
+    List<UserArticle> getBehavior(Long userId, Long artId);
     List<Long> getUserId();
 
     List<Article> getHistory(Long id);

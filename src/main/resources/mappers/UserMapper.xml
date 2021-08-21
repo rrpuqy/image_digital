@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.example.digitalimage.model.entity.User">
     <id column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="birthdate" jdbcType="DATE" property="birthdate" />
@@ -17,11 +18,13 @@
     <result column="user_point" jdbcType="INTEGER" property="userPoint" />
     <result column="remaining_view_num" jdbcType="INTEGER" property="remainingViewNum" />
     <result column="user_exp" jdbcType="INTEGER" property="userExp" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, `status`, gender, birthdate, email, phone, graduated, enro_year, 
-    nick, user_province, user_city, user_point, remaining_view_num, user_exp, `password`
+    user_id, user_name, `password`, `status`, gender, birthdate, email, phone, graduated, 
+    enro_year, nick, user_province, user_city, user_point, remaining_view_num, user_exp, 
+    avatar_url, signature
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -34,18 +37,20 @@
     where user_id = #{userId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.example.digitalimage.model.entity.User">
-    insert into user (user_id, user_name, `status`, 
-      gender, birthdate, email, 
-      phone, graduated, enro_year, 
-      nick, user_province, user_city, 
-      user_point, remaining_view_num, user_exp, 
-      `password`)
-    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{gender,jdbcType=INTEGER}, #{birthdate,jdbcType=DATE}, #{email,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{graduated,jdbcType=INTEGER}, #{enroYear,jdbcType=INTEGER}, 
-      #{nick,jdbcType=VARCHAR}, #{userProvince,jdbcType=VARCHAR}, #{userCity,jdbcType=VARCHAR}, 
-      #{userPoint,jdbcType=INTEGER}, #{remainingViewNum,jdbcType=INTEGER}, #{userExp,jdbcType=INTEGER}, 
-      #{password,jdbcType=VARCHAR})
+    insert into user (user_id, user_name, `password`, 
+      `status`, gender, birthdate, 
+      email, phone, graduated, 
+      enro_year, nick, user_province, 
+      user_city, user_point, remaining_view_num, 
+      user_exp, avatar_url, signature
+      )
+    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{gender,jdbcType=INTEGER}, #{birthdate,jdbcType=DATE}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{graduated,jdbcType=INTEGER}, 
+      #{enroYear,jdbcType=INTEGER}, #{nick,jdbcType=VARCHAR}, #{userProvince,jdbcType=VARCHAR}, 
+      #{userCity,jdbcType=VARCHAR}, #{userPoint,jdbcType=INTEGER}, #{remainingViewNum,jdbcType=INTEGER}, 
+      #{userExp,jdbcType=INTEGER}, #{avatarUrl,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.example.digitalimage.model.entity.User">
     insert into user
@@ -55,6 +60,9 @@
       </if>
       <if test="userName != null">
         user_name,
+      </if>
+      <if test="password != null">
+        `password`,
       </if>
       <if test="status != null">
         `status`,
@@ -95,8 +103,11 @@
       <if test="userExp != null">
         user_exp,
       </if>
-      <if test="password != null">
-        `password`,
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="signature != null">
+        signature,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -105,6 +116,9 @@
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -145,8 +159,11 @@
       <if test="userExp != null">
         #{userExp,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -155,6 +172,9 @@
     <set>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         `status` = #{status,jdbcType=INTEGER},
@@ -195,8 +215,11 @@
       <if test="userExp != null">
         user_exp = #{userExp,jdbcType=INTEGER},
       </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=BIGINT}
@@ -204,6 +227,7 @@
   <update id="updateByPrimaryKey" parameterType="com.example.digitalimage.model.entity.User">
     update user
     set user_name = #{userName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
       gender = #{gender,jdbcType=INTEGER},
       birthdate = #{birthdate,jdbcType=DATE},
@@ -217,7 +241,8 @@
       user_point = #{userPoint,jdbcType=INTEGER},
       remaining_view_num = #{remainingViewNum,jdbcType=INTEGER},
       user_exp = #{userExp,jdbcType=INTEGER},
-      `password` = #{password,jdbcType=VARCHAR}
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
   <select id="selectLogin" parameterType="com.example.digitalimage.model.vo.UserVo"

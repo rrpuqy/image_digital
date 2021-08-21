@@ -10,6 +10,8 @@ public class User {
 
     private String userName;
 
+    private String password;
+
     private Integer status;
 
     private Integer gender;
@@ -19,13 +21,12 @@ public class User {
     private String email;
 
     private String phone;
-    private String nick;
 
     private Integer graduated;
 
     private Integer enroYear;
 
-
+    private String nick;
 
     private String userProvince;
 
@@ -37,7 +38,9 @@ public class User {
 
     private Integer userExp;
 
-    private String password;
+    private String avatarUrl;
+
+    private String signature;
 
     public Long getUserId() {
         return userId;
@@ -53,6 +56,14 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public Integer getStatus() {
@@ -159,11 +170,19 @@ public class User {
         this.userExp = userExp;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature == null ? null : signature.trim();
     }
 }

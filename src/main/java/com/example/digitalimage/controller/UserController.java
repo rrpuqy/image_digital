@@ -7,7 +7,9 @@ import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.entity.UserArticle;
+import com.example.digitalimage.model.vo.PersonalInfo;
 import com.example.digitalimage.model.vo.RegisterVo;
+import com.example.digitalimage.model.vo.UserProfile;
 import com.example.digitalimage.model.vo.UserVo;
 import com.example.digitalimage.service.TokenService;
 import com.example.digitalimage.service.UserService;
@@ -30,7 +32,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
 @Api(tags = "用户相关接口")
 @RequestMapping("/user")
 public class UserController extends BaseController {
@@ -138,4 +140,22 @@ public class UserController extends BaseController {
         return effectiveURI;
     }
 
+    @ApiOperation("获取个人界面")
+    @GetMapping("/get_personal_info")
+    public ApiRequestResponse<PersonalInfo> getPersonalInfo(Long id){
+        return this.renderSuccess(this.userService.getPersonalInfo(id));
+    }
+
+    @ApiOperation("获取用户资料")
+    @GetMapping("/get_userprofile")
+    public ApiRequestResponse<UserProfile> getUserProfile(Long id){
+        return this.renderSuccess(this.userService.showUserProfile(id));
+    }
+
+    @ApiOperation("修改用户资料")
+    @PostMapping("修改用户信息")
+    public ApiRequestResponse editUserProfile(UserProfile userProfile){
+        this.userService.editUserProfile(userProfile);
+        return this.renderSuccess();
+    }
 }
