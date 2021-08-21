@@ -250,4 +250,9 @@
       and auth_id = #{id}
     </where>
   </select>
+  <select id="getPublishNums" resultType="java.lang.Integer">
+    select count(*)
+    from article
+    where auth_id = #{userId}
+  </select>
 </mapper>

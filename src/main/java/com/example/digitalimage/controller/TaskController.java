@@ -6,7 +6,9 @@ import com.example.digitalimage.model.dao.UserTaskMapper;
 import com.example.digitalimage.model.entity.Task;
 import com.example.digitalimage.model.entity.UserArticle;
 import com.example.digitalimage.model.vo.TaskVo;
+import com.example.digitalimage.model.vo.UserInfoVo;
 import com.example.digitalimage.service.TaskService;
+import com.example.digitalimage.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class TaskController extends BaseController{
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/getList")
     @ApiOperation("任务列表")
@@ -51,6 +56,11 @@ public class TaskController extends BaseController{
         return this.renderSuccess();
     }
 
+    @GetMapping("/userInfo")
+    @ApiOperation("获取个人信息")
+    public ApiRequestResponse<UserInfoVo> userInfo(@RequestParam Long userId){
+        return ApiRequestResponse.success(this.userService.getUserInfo(userId));
+    }
 //    @GetMapping("/test")
 //    public int test(@RequestParam int a,@RequestParam int b,@RequestParam Long c){return this.taskService.getNum(a,b,c);}
 }

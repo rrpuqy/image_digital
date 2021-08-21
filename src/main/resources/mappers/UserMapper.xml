@@ -256,4 +256,9 @@
   <select id="getHistory" resultType="com.example.digitalimage.model.entity.Article">
     select * from article inner join user_article ua on article.art_id = ua.art_id and ua.user_id = #{id} and ua.type = 1
   </select>
+  <update id="updateRemainingViewNum">
+    update user
+    set remaining_view_num = 50
+    where user_id = #{userId}
+  </update>
 </mapper>
