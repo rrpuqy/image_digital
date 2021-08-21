@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 
 @Configuration
-public class AuthWebConfigurer extends WebMvcConfigurationSupport {
+public class AuthWebConfigurer implements WebMvcConfigurer {
 
     @Resource
     private AuthHandlerInterceptor authHandlerInterceptor;
@@ -22,13 +22,13 @@ public class AuthWebConfigurer extends WebMvcConfigurationSupport {
 //                .excludePathPatterns("/login", "/register", "/test-token", "/retest");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        System.out.println("ssssssssss");
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-//        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-//        registry.addResourceHandler("swagger-ui.html")
-//                .addResourceLocations("classpath:/META-INF/resources/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        System.out.println("ssssssssss");
+//        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+////        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+////        registry.addResourceHandler("swagger-ui.html")
+////                .addResourceLocations("classpath:/META-INF/resources/");
+//    }
 }

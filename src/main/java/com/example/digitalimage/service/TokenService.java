@@ -22,11 +22,11 @@ public class TokenService {
     @Value("${token.privateKey}")
     private String privateKey;
 
-    public String getToken(User user) {
+    public String getToken(Long userId) {
         Date start = new Date();
         long currentTime = System.currentTimeMillis() + 60* 60 * 1000 * 24;
         Date end = new Date(currentTime);
-        String token= JWT.create().withClaim("userId",user.getUserId().toString())
+        String token= JWT.create().withClaim("userId",userId)
                 .withIssuedAt(start)
                 .withExpiresAt(end)// 将 user id 保存到 token 里面
                 .sign(Algorithm.HMAC256(privateKey));// 以 password 作为 token 的密钥

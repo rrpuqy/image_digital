@@ -1,13 +1,23 @@
 package com.example.digitalimage.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.example.digitalimage.common.ApiRequestResponse;
 import com.example.digitalimage.common.WxAuthRequest;
 import com.example.digitalimage.common.WxAuthResponse;
+import com.example.digitalimage.common.WxRegister;
+import com.example.digitalimage.exception.ExceptionEnum;
+import com.example.digitalimage.model.dao.UserMapper;
+import com.example.digitalimage.model.dao.WxLoginMapper;
+import com.example.digitalimage.model.entity.User;
+import com.example.digitalimage.model.entity.WxLogin;
+import com.example.digitalimage.service.TokenService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
@@ -28,13 +38,22 @@ public class HelloTest {
     @Autowired
     WxAuthRequest wxAuthRequest;
 
+    @Autowired
+    TokenService tokenService;
+
+    @Autowired
+    WxLoginMapper wxLoginMapper;
+
+    @Autowired
+    UserMapper userMapper;
     @GetMapping("hello")
     public String hello(){
         return "hello spring";
     }
 
+    @ApiOperation("尝试使用微信登录")
     @GetMapping("wxloginTest")
-    public WxAuthResponse wxTest(@RequestParam String js_code){
+    public ApiRequestResponse wxTest(@RequestParam String js_code){
         wxAuthRequest.setJs_code(js_code);
         String url = "https://api.weixin.qq.com/sns/jscode2session?";
 
@@ -43,15 +62,45 @@ public class HelloTest {
         uriVariables.put("secret",wxAuthRequest.getSecret());
         uriVariables.put("js_code",wxAuthRequest.getJs_code());
         uriVariables.put("grant_type","authorization_code");
-//        RestTemplate restTemplate = new RestTemplate();
-//        WxAuthResponse wxAuthResponse= restTemplate.getForObject(url,WxAuthResponse.class,uriVariables);
-//        restTemplate.getForEntity()
         String ret = sendPost(url,uriVariables);
         System.out.println(ret);
         WxAuthResponse wxAuthResponse = JSON.parseObject(ret,WxAuthResponse.class);
-        return wxAuthResponse;
+        System.out.println(wxAuthResponse);
+        String openid = wxAuthResponse.getOpenid();
+        if(StringUtils.isEmpty(openid)) return ApiRequestResponse.error(1111,"未能获取到openid");
+        WxLogin wxLogin = wxLoginMapper.selectByPrimaryKey(openid);
+        if(wxLogin==null){
+            wxLogin = new WxLogin();
+            wxLogin.setOpenid(openid);
+            wxLogin.setSessionKey(wxAuthResponse.getSessionKey());
+            wxLoginMapper.insertSelective(wxLogin);
+            return ApiRequestResponse.error(ExceptionEnum.NEED_WX_LOGIN);
+        }
+        else if(wxLogin.getUserId()==null){
+            return ApiRequestResponse.error(ExceptionEnum.NEED_WX_LOGIN);
+        }
+        else{
+            return  ApiRequestResponse.success(tokenService.getToken(wxLogin.getUserId()));
+        }
     }
 
+
+    @ApiOperation("使用微信进行授权")
+    @ResponseBody
+    @PostMapping("/wxfirstlogin")
+    @Transactional(rollbackFor = Exception.class)
+    public ApiRequestResponse wxFirstLogin(@RequestBody WxRegister wxRegister){
+        if(wxLoginMapper.selectByPrimaryKey(wxRegister.getOpenid()).getUserId()!=null)
+            return ApiRequestResponse.error(111,"不是第一次微信登录");
+        User user = new User();
+        BeanUtils.copyProperties(wxRegister,user);
+        WxLogin wxLogin = new WxLogin();
+        wxLogin.setOpenid(wxRegister.getOpenid());
+        wxLogin.setUserId(wxRegister.getUserId());
+        userMapper.insertSelective(user);
+        wxLoginMapper.updateByPrimaryKeySelective(wxLogin);
+        return ApiRequestResponse.success();
+    }
     /**
      * 向指定 URL 发送POST方法的请求
      *

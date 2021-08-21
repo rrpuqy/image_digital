@@ -7,10 +7,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
-    @Configuration
-    public class WebConfig extends WebMvcConfigurationSupport {
+@Configuration
+    public class WebConfig implements WebMvcConfigurer {
 
         /**
          * 基于Filter的全局配置

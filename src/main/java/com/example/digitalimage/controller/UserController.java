@@ -1,6 +1,9 @@
 package com.example.digitalimage.controller;
 
 import com.example.digitalimage.common.ApiRequestResponse;
+import com.example.digitalimage.common.Constant;
+import com.example.digitalimage.exception.ExceptionEnum;
+import com.example.digitalimage.exception.MyException;
 import com.example.digitalimage.model.entity.Article;
 import com.example.digitalimage.model.entity.User;
 import com.example.digitalimage.model.entity.UserArticle;
@@ -15,10 +18,17 @@ import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Api(tags = "用户相关接口")
@@ -35,7 +45,7 @@ public class UserController extends BaseController {
     public ApiRequestResponse<User> login(@RequestBody UserVo userVo, HttpServletResponse rq)  {
         User user = userService.login(userVo);
         if(user!=null){
-            String token = tokenService.getToken(user);
+            String token = tokenService.getToken(user.getUserId());
             rq.setHeader("token",token);
             rq.addHeader("Access-Control-Expose-Headers","token");
             return this.renderSuccess(user);
@@ -80,6 +90,52 @@ public class UserController extends BaseController {
     @ResponseBody
     public ApiRequestResponse<List<Article>> getHistory(@RequestParam Long id){
         return renderSuccess(this.userService.getHistory(id));
+    }
+
+    @ResponseBody
+    @PostMapping("/admin/upload/file")
+    public ApiRequestResponse<String> upload(HttpServletRequest httpServletRequest,
+                                  @RequestParam("file") MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        //生成文件名称UUID
+        UUID uuid = UUID.randomUUID();
+        String newFileName = uuid.toString() + suffixName;
+        //创建文件
+        File fileDirectory = new File(Constant.FILE_UPLOAD_DIR);
+        File destFile = new File(Constant.FILE_UPLOAD_DIR + newFileName);
+        System.out.println(destFile.getAbsolutePath());
+        if (!fileDirectory.exists()) {
+            if (!fileDirectory.mkdir()) {
+                throw new MyException(ExceptionEnum.MKDIR_FAILED);
+            }
+        }
+        try {
+            file.transferTo(destFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+//            System.out.println(getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/images/"
+//                    + newFileName);
+            String s = getHost(new URI(httpServletRequest.getRequestURL() + "")) + "/images/"
+                    + newFileName;
+            return ApiRequestResponse
+                    .success(s);
+        } catch (URISyntaxException e) {
+            return ApiRequestResponse.error(ExceptionEnum.UPLOAD_FAILED);
+        }
+    }
+
+    private URI getHost(URI uri) {
+        URI effectiveURI;
+        try {
+            effectiveURI = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
+                    null, null, null);
+        } catch (URISyntaxException e) {
+            effectiveURI = null;
+        }
+        return effectiveURI;
     }
 
 }

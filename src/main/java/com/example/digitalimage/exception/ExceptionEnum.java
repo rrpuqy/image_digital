@@ -22,7 +22,8 @@ public enum ExceptionEnum {
     MKDIR_FAILED(10014, "文件夹创建失败"),
     UPLOAD_FAILED(10015, "图片上传失败"),
     JWT_ERR(10016,"token失效"),
-    SYSTEM_ERROR(20000, "系统异常，请从控制台或日志中查看具体错误信息");
+    SYSTEM_ERROR(20000, "系统异常，请从控制台或日志中查看具体错误信息"),
+    NEED_WX_LOGIN(10017,"需要微信登录");
 
     /**
      * 异常码
