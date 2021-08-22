@@ -11,5 +11,6 @@ public class PersonalInfo {
         private String nick;
         private Integer rank;
         private String avatarUrl;
+        private Integer userExp;
 
 }

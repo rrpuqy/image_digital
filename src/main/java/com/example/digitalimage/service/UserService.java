@@ -91,8 +91,15 @@ public class UserService {
     public PersonalInfo getPersonalInfo(Long userId){
         PersonalInfo personalInfo = new PersonalInfo();
         User user = this.userMapper.selectByPrimaryKey(userId);
-        BeanUtils.copyProperties(user,personalInfo);
-        personalInfo.setRank(Utils.getLevel(user.getUserExp()));
+        System.out.println(user);
+        System.out.println("personalInfo"+personalInfo);
+//        BeanUtils.copyProperties(user,personalInfo);
+        personalInfo.setUserExp(user.getUserExp());
+        personalInfo.setAvatarUrl(user.getAvatarUrl());
+        personalInfo.setNick(user.getNick());
+        if(user.getUserExp()!=null)
+            personalInfo.setRank(Utils.getLevel(user.getUserExp()));
+        System.out.println("personalInfo"+personalInfo);
         return personalInfo;
     }
 

@@ -140,21 +140,21 @@ public class UserController extends BaseController {
         return effectiveURI;
     }
 
-    @ApiOperation("获取个人界面")
+//    @ApiOperation("获取个人界面")
     @GetMapping("/get_personal_info")
-    public ApiRequestResponse<PersonalInfo> getPersonalInfo(Long id){
+    public ApiRequestResponse<PersonalInfo> getPersonalInfo(@RequestParam  Long id){
         return this.renderSuccess(this.userService.getPersonalInfo(id));
     }
 
-    @ApiOperation("获取用户资料")
+//    @ApiOperation("获取用户资料")
     @GetMapping("/get_userprofile")
-    public ApiRequestResponse<UserProfile> getUserProfile(Long id){
+    public ApiRequestResponse<UserProfile> getUserProfile(@RequestParam  Long id){
         return this.renderSuccess(this.userService.showUserProfile(id));
     }
 
     @ApiOperation("修改用户资料")
-    @PostMapping("修改用户信息")
-    public ApiRequestResponse editUserProfile(UserProfile userProfile){
+    @PostMapping("/edit_userprofile")
+    public ApiRequestResponse editUserProfile(@RequestBody UserProfile userProfile){
         this.userService.editUserProfile(userProfile);
         return this.renderSuccess();
     }

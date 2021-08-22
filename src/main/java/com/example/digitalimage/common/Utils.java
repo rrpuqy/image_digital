@@ -1,7 +1,8 @@
 package com.example.digitalimage.common;
 
 public class Utils {
-    public static Integer getLevel(int exp){
+    public static Integer getLevel(Integer exp){
+        System.out.println(Rank.LV5.getExp());
         if(exp >= Rank.LV0.getExp() && exp<Rank.LV1.getExp())
             return 0;
         else if(exp >= Rank.LV1.getExp() && exp<Rank.LV2.getExp())
